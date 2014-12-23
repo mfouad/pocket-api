@@ -18,7 +18,7 @@ var getRequestToken = function(key, callback) {
 
 	var options = {
 		headers: config.headers,
-		body: "consumer_key="+key+"&redirect_uri=pocketapp1234:authorizationFinished",
+		body: "consumer_key="+key+"&redirect_uri="+'http://localhost:888',
 		url: config.pocketUrl.request
 	}
 
@@ -32,7 +32,7 @@ var getAccessToken = function(key, requestToken, callback){
 	var options = {
 		headers: config.headers,
 		url: config.pocketUrl.authorize,
-		body: "consumer_key="+key+"&code="+requestToken+"&redirect_uri=pocketapp1234:authorizationFinished"
+		body: "consumer_key="+key+"&code="+requestToken	+"&redirect_uri="+'http://localhost:888'
 	}
 
 	request.post(options, function (error, response, body) {
@@ -41,14 +41,16 @@ var getAccessToken = function(key, requestToken, callback){
 
 }
 
-var getArticles = function(key, accessToken, callback){
+var getArticles = function(key, accessToken, extra, callback){
 
 	var options = {
 		headers: config.headers,
 		url: config.pocketUrl.get,
-		body: "consumer_key="+key+"&access_token="+accessToken
+		body: "consumer_key="+key+"&access_token="+accessToken+extra
 	}
-
+	
+	
+console.log(options);
 	request.post(options, function (error, response, body) {
 		completePost(error, response, body, callback);
 	});
